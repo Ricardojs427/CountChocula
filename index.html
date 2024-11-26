@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Fraunces Font Showcase</title>
+   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+   <div id="page1" class="page active">
+       <div id="fraunces-sign">Fraunces</div>
+       <div id="welcome-container">
+           <div id="hover-text">hover!</div>
+           <div id="welcome-text">welcome to the site! this site was made to showcase the font Fraunces!</div>
+       </div>
+       <div id="fraunces-info">
+       </div>
+   </div>
+   <div id="page2" class="page">
+       <div id="scrolling-text-container">
+           <div id="scrolling-text-1" class="scrolling-text"></div>
+           <div id="scrolling-text-2" class="scrolling-text"></div>
+       </div>
+       <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-style: italic;">hover over to explore the font!</div>
+       <div id="clicked-letters"></div>
+   </div>
+   <div id="page3" class="page">
+       <div id="tamagotchi"></div>
+       <div id="market-text-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+           <div class="market-text" style="opacity: 0; transition: opacity 0.6s;">Fresh Produce Daily</div>
+           <div class="market-text" style="opacity: 0; transition: opacity 0.7s;">Local Organic Goods</div>
+           <div class="market-text" style="opacity: 0; transition: opacity 0.8s;">Family Owned Since 1950</div>
+       </div>
+   </div>
+   <button id="left-button" class="nav-button">←</button>
+   <button id="right-button" class="nav-button">→</button>
+   <div id="page4" class="page">
+       <div id="code-display"></div>
+       <div id="code-history"></div>
+       <div id="numpad">
+           <button class="numpad-button">1</button>
+           <button class="numpad-button">2</button>
+           <button class="numpad-button">3</button>
+           <button class="numpad-button">4</button>
+           <button class="numpad-button">5</button>
+           <button class="numpad-button">6</button>
+           <button class="numpad-button">7</button>
+           <button class="numpad-button">8</button>
+           <button class="numpad-button">9</button>
+           <button class="numpad-button">Clear</button>
+           <button class="numpad-button">0</button>
+           <button class="numpad-button">Enter</button>
+       </div>
+
+       <!-- CSS CODE-->
+       <style>
+           body {
+               font-family: 'Fraunces', serif;
+               margin: 0;
+               padding: 0;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               height: 200vh;
+               background-color: #f0f0f0;
+           }
+           #welcome-container {
+               font-family: 'Fraunces', serif;
+               position: absolute;
+               top: 60%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+               text-align: center;
+               font-size: 1.5rem;
+           }
+           #hover-text {
+               opacity: 1;
+               transition: opacity 0.3s ease;
+           }
+           #welcome-text {
+               opacity: 0;
+               transition: opacity 0.3s ease;
+               position: absolute;
+               top: 0;
+               left: 50%;
+               transform: translateX(-50%);
+               white-space: nowrap;
+           }
+           #welcome-container:hover #hover-text {
+               opacity: 0;
+           }
+           #welcome-container:hover #welcome-text {
+               opacity: 1;
+           }
+           #fraunces-sign {
+               font-size: 5rem;
+               text-align: center;
+               cursor: pointer;
+               position: absolute;
+               top: 30%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+               padding: 10px 20px;
+               border-radius: 5px;
+               transition: all 0.3s ease;
+           }
+           #fraunces-sign:hover {
+               transform: translate(-50%, -50%) scale(1.50);
+           }
+           .nav-button {
+               position: absolute;
+               top: 50%;
+               transform: translateY(-50%);
+               padding: 10px 20px;
+               font-size: 2rem;
+               cursor: pointer;
+               z-index: 1000;
+           }
+           #left-button {
+               left: 20px;
+           }
+           #right-button {
+               right: 20px;
+           }
+           body {
+               background-color: #f8f4e3;
+               color: #333;
+           }
+           #fraunces-sign {
+               text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+           }
+           .nav-button {
+               background-color: #4a4a4a;
+               color: #fff;
+               border: none;
+               border-radius: 5px;
+               transition: background-color 0.3s ease;
+           }
+           .nav-button:hover {
+               background-color: #333;
+           }
+           @media (max-width: 768px) {
+               #fraunces-sign {
+                   font-size: 1.5rem;
+               }
+               .nav-button {
+                   padding: 8px 16px;
+                   font-size: 0.9rem;
+               }
+           }
+           .page {
+               display: none;
+               width: 100vw;
+               height: 100vh;
+               position: absolute;
+               top: 0;
+               left: 0;
+           }
+           .page.active {
+               display: flex;
+               justify-content: center;
+               align-items: center;
+           }
+
+           #page1 {
+               background-image: url('bodega-background.jpg');
+               background-size: cover;
+               background-position: center;
+           }
+           .giant-letter {
+               position: absolute;
+               font-size: 20vw;
+               opacity: 0;
+               transition: all 0.5s ease;
+               cursor: pointer;
+               user-select: none;
+           }
+           .giant-letter:hover {
+               transform: scale(1.2) rotate(10deg);
+           }
+           #scrolling-text-container {
+               position: absolute;
+               width: 100%;
+               height: 100%;
+               overflow: hidden;
+           }
+           .scrolling-text {
+               position: absolute;
+               white-space: nowrap;
+               font-size: 24rem;
+               transition: all 0.3s ease;
+           }
+           .scrolling-text span {
+               display: inline-block;
+               padding: 0 10px;
+               transition: all 0.1s ease;
+           }
+           .scrolling-text span:hover {
+               transform: scale(1.2);
+           }
+           .letter-info {
+               position: absolute;
+               background-color: rgba(0,0,0,0.8);
+               color: white;
+               padding: 5px;
+               border-radius: 3px;
+               font-size: 12px;
+               pointer-events: none;
+               opacity: 0;
+               transition: opacity 0.1s ease;
+           }
+           #clicked-letters {
+               position: absolute;
+               top: 10px;
+               right: 10px;
+               font-size: 1rem;
+               background-color: rgba(255,255,255,0.8);
+               padding: 5px;
+               border-radius: 3px;
+           }
+           #fraunces-info {
+               position: absolute;
+               top: 100%;
+               left: 50%;
+               transform: translateX(-50%);
+               background-color: white;
+               border: 1px solid #ccc;
+               border-radius: 5px;
+               padding: 10px;
+               max-width: 300px;
+               opacity: 0;
+               transition: all 0.2s ease;
+               pointer-events: none;
+           }
+           .letter {
+               position: absolute;
+               font-size: 2rem;
+               opacity: 0;
+               transition: transform 0.3s ease;
+               cursor: pointer;
+               user-select: none;
+               will-change: transform;
+           }
+           #numpad {
+               display: grid;
+               grid-template-columns: repeat(3, 1fr);
+               gap: 10px;
+           }
+           .numpad-button {
+               font-family: 'Fraunces', serif;
+               width: 60px;
+               height: 60px;
+               font-size: 20px;
+               background-color: #4a4a4a;
+               color: #fff;
+               border: none;
+               border-radius: 5px;
+               cursor: pointer;
+           }
+           #code-display {
+               font-family: 'Fraunces', serif;
+               position: absolute;
+               width: 200px;
+               height: 40px;
+               font-size: 24px;
+               text-align: center;
+               margin-top: -320px;
+               margin-bottom: 10px;
+               background-color: #fff;
+               border: 1px solid #4a4a4a;
+           }
+           #code-history {
+               position: absolute;
+               top: 20px;
+               right: 20px;
+               width: 200px;
+               background-color: rgba(255,255,255,0.9);
+               padding: 10px;
+               border-radius: 5px;
+               font-family: 'Fraunces', serif;
+           }
+           .code-entry {
+               margin: 5px 0;
+               padding: 5px;
+               border-radius: 3px;
+           }
+           .code-valid {
+               color: #2ecc71;
+           }
+           .code-invalid {
+               color: #e74c3c;
+           }
+           .fraunces-weight {
+               position: absolute;
+               font-size: 48px;
+               opacity: 0;
+               transition: opacity 2s ease-in-out, transform 0.3s ease-in-out;
+               cursor: pointer;
+           }
+           .fraunces-weight:hover {
+               transform: scale(1.1);
+           }
+           .fraunces-weight.bounce {
+               animation: bounce 0.5s ease-in-out;
+           }
+           .fraunces-weight.fall {
+               animation: fall 1s ease-in-out;
+           }
+           @keyframes bounce {
+               0%, 100% { transform: translateY(0); }
+               50% { transform: translateY(-20px); }
+           }
+           @keyframes fall {
+               0% { transform: translateY(0); }
+               100% { transform: translateY(100vh); }
+           }
+           .bacon {
+               position: absolute;
+               font-family: 'Fraunces', serif;
+               font-size: 24px;
+               color: #333;
+           }
+          
+       </style>
+
+   <script>
+       const frauncesSign = document.getElementById('fraunces-sign');
+       const weights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+       const sizes = ['2rem', '3rem', '4rem', '5rem', '9rem', '20rem'];
+       let currentPage = 1;
+       const totalPages = 4;
+       let clickedLetters = '';
+       let codeHistory = [];
+       let mouseX = 0;
+       let mouseY = 0;
+
+       const pastelColors = [
+           '#FFB3BA', '#BAFFC9', '#BAE1FF', '#FFFFBA', '#FFDFBA', '#E0BBE4',
+           '#D4E4BC', '#FEC8D8', '#C5E0DC', '#F0E0D6', '#D5AAFF', '#B5EAD7'
+       ];
+
+       frauncesSign.style.backgroundColor = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+
+       frauncesSign.addEventListener('click', () => {
+           spamFraunces();
+           frauncesInfo.style.opacity = frauncesInfo.style.opacity === '1' ? '0' : '1';
+           frauncesInfo.style.top = frauncesInfo.style.opacity === '1' ? '120%' : '100%';
+           frauncesInfo.style.pointerEvents = frauncesInfo.style.opacity === '1' ? 'auto' : 'none';
+       });
+
+       frauncesSign.addEventListener('mouseover', () => {
+           const interval = setInterval(spamFraunces, 100);
+           frauncesSign.addEventListener('mouseout', () => {
+               clearInterval(interval);
+               document.querySelectorAll('.fraunces-spam').forEach(el => {
+                   el.style.opacity = '0';
+                   setTimeout(() => el.remove(), 500);
+               });
+           });
+       });
+
+       // Cash Register Page functionality
+       const numpad = document.getElementById('numpad');
+       const codeDisplay = document.getElementById('code-display');
+       const codeHistoryDisplay = document.getElementById('code-history');
+       let currentCode = '';
+
+       numpad.addEventListener('click', (event) => {
+           if (event.target.classList.contains('numpad-button')) {
+               const value = event.target.textContent;
+               if (value === 'Clear') {
+                   currentCode = '';
+               } else if (value === 'Enter') {
+                   handleCode(currentCode);
+                   currentCode = '';
+               } else if (currentCode.length < 4) {
+                   currentCode += value;
+               }
+               codeDisplay.textContent = currentCode;
+           }
+       });
+
+      
+       function handleCode(code) {
+           const validCodes = ['0000', '1234', '6969', '0199'];
+           const isValid = validCodes.includes(code);
+           
+           codeHistory.unshift({
+               code: code,
+               valid: isValid
+           });
+
+           updateCodeHistory();
+
+           switch (code) {
+               case '0000':
+                   showPage(1);
+                   break;
+               case '1234':
+                   showFrauncesFonts();
+                   break;
+               case '6969':
+                   alert('ya nasty');
+                   break;
+               case '0199':
+                   spamBacon();
+                   break;
+               default:
+                   alert('Invalid. TRY AGAIN. LOL');
+           }
+       }
+
+       function updateCodeHistory() {
+           codeHistoryDisplay.innerHTML = '<h3>Code History:</h3>';
+           codeHistory.slice(0, 10).forEach(entry => {
+               const div = document.createElement('div');
+               div.className = `code-entry code-${entry.valid ? 'valid' : 'invalid'}`;
+               div.textContent = entry.code;
+               codeHistoryDisplay.appendChild(div);
+           });
+       }
+
+       function showFrauncesFonts() {
+           const page4 = document.getElementById('page4');
+           let interval = setInterval(() => {
+               const weight = weights[Math.floor(Math.random() * weights.length)];
+               const element = document.createElement('div');
+               element.className = 'fraunces-weight';
+               element.textContent = `Fraunces ${weight}`;
+               element.style.fontWeight = weight;
+               element.style.left = `${Math.random() * 80}%`;
+               element.style.top = `${Math.random() * 80}%`;
+               page4.appendChild(element);
+
+               setTimeout(() => {
+                   element.style.opacity = 1;
+               }, 100);
+
+               setTimeout(() => {
+                   element.style.opacity = 0;
+               }, 5000);
+
+               setTimeout(() => {
+                   element.remove();
+               }, 7000);
+
+               element.addEventListener('mouseover', () => {
+                   element.style.color = `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`;
+               });
+
+               element.addEventListener('click', () => {
+                   const action = Math.random() < 0.5 ? 'bounce' : 'fall';
+                   element.classList.add(action);
+                   element.style.transform = `scale(1.2) rotate(${Math.random()*360}deg)`;
+                   if (action === 'fall') {
+                       setTimeout(() => {
+                           element.remove();
+                       }, 1000);
+                   } else {
+                       setTimeout(() => {
+                           element.classList.remove('bounce');
+                       }, 500);
+                   }
+               });
+           }, 1000);
+
+           setTimeout(() => {
+               clearInterval(interval);
+           }, 30000);
+       }
+
+       function spamBacon() {
+           const page4 = document.getElementById('page4');
+           for (let i = 0; i < 50; i++) {
+               const bacon = document.createElement('div');
+               bacon.className = 'bacon';
+               bacon.textContent = 'bacon';
+               bacon.style.left = `${Math.random() * 100}%`;
+               bacon.style.top = `${Math.random() * 100}%`;
+               bacon.style.transform = `rotate(${Math.random() * 360}deg)`;
+               page4.appendChild(bacon);
+           }
+           setTimeout(() => {
+               document.querySelectorAll('.bacon').forEach(el => el.remove());
+           }, 3000);
+       }
+
+       function spamFraunces() {
+           const currentWeight = frauncesSign.style.fontWeight || 400;
+           const currentSize = frauncesSign.style.fontSize || '4rem';
+           for (let i = 0; i < 10; i++) {
+               setTimeout(() => {
+                   const spamElement = document.createElement('div');
+                   spamElement.className = 'fraunces-spam';
+                   spamElement.textContent = 'Fraunces';
+                   spamElement.style.fontSize = sizes[Math.floor(Math.random() * sizes.length)];
+                   spamElement.style.fontWeight = weights[Math.floor(Math.random() * weights.length)];
+                   spamElement.style.color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+                   spamElement.style.position = 'absolute';
+                   // Create a spiral pattern
+                   const angle = (i / 10) * Math.PI * 2;
+                   const radius = i * 20;
+                   const x = 50 + Math.cos(angle) * radius;
+                   const y = 50 + Math.sin(angle) * radius;
+                   spamElement.style.left = `${x}vw`;
+                   spamElement.style.top = `${y}vh`;
+                   spamElement.style.opacity = '0';
+                   spamElement.style.transform = `rotate(${angle * (180/Math.PI)}deg)`;
+                   spamElement.style.transition = 'all 0.5s ease';
+                  
+                   document.body.appendChild(spamElement);
+
+                   setTimeout(() => {
+                       spamElement.style.opacity = '1';
+                       spamElement.style.transform += ' scale(1.2)';
+                   }, 50);
+
+                   setTimeout(() => {
+                       spamElement.style.opacity = '0';
+                       spamElement.style.transform += ' scale(0.5)';
+                       setTimeout(() => {
+                           spamElement.remove();
+                       }, 500);
+                   }, 1500);
+               }, i * 100);
+           }
+       }
+
+       function showPage(pageNumber) {
+           document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+           document.getElementById(`page${pageNumber}`).classList.add('active');
+           if (pageNumber === 2) {
+               setupScrollingText();
+           } else if (pageNumber === 3) {
+               setupTamagotchi();
+               setupRain();
+               // Show market text with delay
+               const marketTexts = document.querySelectorAll('.market-text');
+               marketTexts.forEach((text, index) => {
+                   setTimeout(() => {
+                       text.style.opacity = '1';
+                   }, index * 500);
+               });
+           }
+       }
+
+       document.getElementById('left-button').addEventListener('click', () => {
+           currentPage = currentPage > 1 ? currentPage - 1 : totalPages;
+           showPage(currentPage);
+       });
+
+       document.getElementById('right-button').addEventListener('click', () => {
+           currentPage = currentPage < totalPages ? currentPage + 1 : 1;
+           showPage(currentPage);
+       });
+
+       function setupScrollingText() {
+           const scrollingText1 = document.getElementById('scrolling-text-1');
+           const scrollingText2 = document.getElementById('scrolling-text-2');
+           scrollingText1.innerHTML = '';
+           scrollingText2.innerHTML = '';
+           const text1 = "Idon'tknowwhereI'mgoingwhenI'mgoing.";
+           const text2 = "haveyoueverwonderedwhereYOURtaxdollarsaregoing?";
+           let currentWeight = 100;
+           let direction = 1;
+
+           function createSpans(text, element) {
+               for (let i = 0; i < text.length; i++) {
+                   const span = document.createElement('span');
+                   span.textContent = text[i];
+                   span.style.fontWeight = currentWeight;
+                   element.appendChild(span);
+
+                   currentWeight += 50 * direction;
+                   if (currentWeight >= 900 || currentWeight <= 100) {
+                       direction *= -1;
+                   }
+
+                   span.addEventListener('click', (e) => {
+                       span.style.transition = 'all 0.5s ease';
+                       span.style.opacity = '0';
+                       clickedLetters += span.textContent;
+                       document.getElementById('clicked-letters').textContent = clickedLetters;
+                       setTimeout(() => span.remove(), 500);
+
+                       const letterInfo = document.querySelector('.letter-info');
+                       if (letterInfo) {
+                           letterInfo.style.opacity = '0';
+                           setTimeout(() => letterInfo.remove(), 300);
+                       }
+                   });
+
+                   span.addEventListener('mouseover', (e) => {
+                       const letterInfo = document.createElement('div');
+                       letterInfo.className = 'letter-info';
+                       letterInfo.textContent = `Weight: ${span.style.fontWeight}, Size: 24rem`;
+                       letterInfo.style.left = `${e.clientX}px`;
+                       letterInfo.style.top = `${e.clientY - 30}px`;
+                       document.body.appendChild(letterInfo);
+                       setTimeout(() => letterInfo.style.opacity = '1', 10);
+
+                       span.addEventListener('click', () => {
+                           setTimeout(() => {
+                               letterInfo.style.opacity = '0';
+                               setTimeout(() => letterInfo.remove(), 300);
+                           }, 3000);
+                       });
+                   });
+
+                   span.addEventListener('mouseout', (e) => {
+                       const letterInfo = document.querySelector('.letter-info');
+                       if (letterInfo) {
+                           letterInfo.style.opacity = '0';
+                           setTimeout(() => letterInfo.remove(), 300);
+                       }
+                   });
+               }
+           }
+
+           createSpans(text1, scrollingText1);
+           createSpans(text2, scrollingText2);
+
+           let scrollPosition1 = window.innerWidth;
+           let scrollPosition2 = -scrollingText2.offsetWidth;
+           let isPaused = false;
+
+           scrollingText1.style.top = '0';
+           scrollingText2.style.bottom = '0';
+
+           function animate() {
+               if (!isPaused) {
+                   scrollPosition1 -= 2;
+                   scrollPosition2 += 2;
+                   if (scrollPosition1 < -scrollingText1.offsetWidth) {
+                       scrollPosition1 = window.innerWidth;
+                   }
+                   if (scrollPosition2 > window.innerWidth) {
+                       scrollPosition2 = -scrollingText2.offsetWidth;
+                   }
+                   scrollingText1.style.transform = `translateX(${scrollPosition1}px)`;
+                   scrollingText2.style.transform = `translateX(${scrollPosition2}px)`;
+               }
+               requestAnimationFrame(animate);
+           }
+
+           animate();
+
+           scrollingText1.addEventListener('mouseover', () => {
+               isPaused = true;
+           });
+
+           scrollingText1.addEventListener('mouseout', () => {
+               isPaused = false;
+           });
+
+           scrollingText2.addEventListener('mouseover', () => {
+               isPaused = true;
+           });
+
+           scrollingText2.addEventListener('mouseout', () => {
+               isPaused = false;
+           });
+       }
+
+       function setupTamagotchi() {
+           const tamagotchi = document.getElementById('tamagotchi');
+           tamagotchi.style.backgroundImage = "url('tamagotchi.png')";
+           tamagotchi.style.animation = "move 2s infinite";
+       }
+
+       document.addEventListener('mousemove', (e) => {
+           mouseX = e.clientX;
+           mouseY = e.clientY;
+       });
+
+       function setupRain() {
+           const rainContainer = document.getElementById('page3');
+           const letters = [];
+           const velocities = [];
+           
+           for (let i = 0; i < 100; i++) {
+               const letter = document.createElement('div');
+               letter.className = 'letter';
+               letter.textContent = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+               letter.style.left = `${Math.random() * 100}vw`;
+               letter.style.top = `${Math.random() * 100}vh`;
+               letter.style.opacity = '1';
+               rainContainer.appendChild(letter);
+               
+               letters.push({
+                   element: letter,
+                   x: parseFloat(letter.style.left),
+                   y: parseFloat(letter.style.top),
+                   vx: (Math.random() - 0.5) * 2,
+                   vy: (Math.random() - 0.5) * 2
+               });
+           }
+
+           function animate() {
+               if (currentPage === 3) {
+                   letters.forEach(letter => {
+                       const dx = mouseX - (letter.x * window.innerWidth / 100);
+                       const dy = mouseY - (letter.y * window.innerHeight / 100);
+                       const distance = Math.sqrt(dx * dx + dy * dy);
+                       
+                       if (distance < 200) {
+                           const force = (200 - distance) / 200;
+                           letter.vx -= (dx / distance) * force * 0.5;
+                           letter.vy -= (dy / distance) * force * 0.5;
+                       }
+                       
+                       letter.vx *= 0.99;
+                       letter.vy *= 0.99;
+                       
+                       letter.x += letter.vx;
+                       letter.y += letter.vy;
+                       
+                       // Bounce off walls
+                       if (letter.x < 0 || letter.x > 100) letter.vx *= -1;
+                       if (letter.y < 0 || letter.y > 100) letter.vy *= -1;
+                       
+                       letter.x = Math.max(0, Math.min(100, letter.x));
+                       letter.y = Math.max(0, Math.min(100, letter.y));
+                       
+                       letter.element.style.left = `${letter.x}vw`;
+                       letter.element.style.top = `${letter.y}vh`;
+                   });
+                   
+                   requestAnimationFrame(animate);
+               }
+           }
+           
+           animate();
+       }
+
+       setInterval(createGiantLetter, 500);
+   </script>
+</body>
+</html>
